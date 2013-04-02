@@ -11,6 +11,9 @@ int main()
 {
     Mat frameL, frameR, frameLUnRotated, frameRUnRotated;
     double timestampL,timestampR;
+    int imageIndex = 15;
+    char imageNameL[256], imageNameR[256];
+
     VideoCapture capL(1); 
     VideoCapture capR(2); 
     if(!capL.isOpened() || !capR.isOpened() ){
@@ -58,7 +61,7 @@ int main()
                 timestampR = capR.get(CV_CAP_PROP_POS_MSEC);
             }
         }
-        printf("timestamp difference = %f\n", timestampL - timestampR);
+       // printf("timestamp difference = %f\n", timestampL - timestampR);
 
         if(!(
             capL.retrieve(frameLUnRotated) &&
@@ -77,10 +80,22 @@ int main()
         imshow("LiveFeedL",frameL);
         imshow("LiveFeedR",frameR);
         //Escape Sequence
-        char c=cvWaitKey(33);
+        char c=cvWaitKey(10);
         //If the key pressed by user is Esc(ASCII is 27) then break out of the loop
+
         if(c=='q')
            break;
+
+       const char *imageOutputDirectory = "media/calibration";
+        if(c==' '){
+            imageIndex ++;
+            sprintf(imageNameL, "%s/%.4dleft.png", imageOutputDirectory, imageIndex);
+            sprintf(imageNameR, "%s/%.4dright.png", imageOutputDirectory, imageIndex);
+            printf("writing images:\n\t%s\n\t%s\n", imageNameL, imageNameR);
+            imwrite(imageNameL, frameL);
+            imwrite(imageNameR, frameR);
+        }
+           
     }
     //CleanUp
 
