@@ -9,10 +9,10 @@ OPENCV_INCLUDE_PATH=${OPENCV_SRC_PATH}/include
 OPENCV_PKG_CONFIG_PATH=${OPENCV_SRC_PATH}/lib/pkgconfig
 CFLAGS= `pkg-config --cflags --libs opencv` -g 
 SRC_FILES=src/main.cpp
-LIBS=-DGL_GLEXT_PROTOTYPES -lGL -lGLU -lglut
+LIBS=
 
 
-EXECUTABLE=-o stereoview
+EXECUTABLE=-o stereotouch
 
 
 
@@ -43,8 +43,7 @@ opencv:
 opencv_GPU:
 	cd ${OPENCV_LIB_PATH}; \
 	pwd; \
-	cmake -D CUDA_ARCH_BIN = "2.1" -D CUDA_ARCH_PTX = "empty" -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local -D BUILD_PYTHON_SUPPORT=ON .. > ${PROJECT_ROOT}/cmake_output.txt ;\
-	make; \
+	cmake -D CUDA_ARCH_BIN = "2.1" -D CUDA_ARCH_PTX = "empty" -D WITH_JPEG=OFF -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local -D BUILD_PYTHON_SUPPORT=ON .. > ${PROJECT_ROOT}/cmake_output.txt ;\
 	sudo make install; \
 
 
