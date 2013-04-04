@@ -31,7 +31,7 @@ calibration:
 	${CC} -o stereo_calib ${OPENCV_SRC_PATH}/samples/cpp/stereo_calib.cpp ${LIBS} ${CFLAGS} ;\
 	${CC} -o calibration ${OPENCV_SRC_PATH}/samples/cpp/calibration.cpp ${LIBS} ${CFLAGS} ;\
 	${CC} -o imagelist_creator ${OPENCV_SRC_PATH}/samples/cpp/imagelist_creator.cpp ${LIBS} ${CFLAGS} ;\
-	${CC} -o image_splitter src/main.cpp src/utils.cpp ${LIBS} ${CFLAGS} ;\
+	
 
 opencv:
 	cd ${OPENCV_LIB_PATH}; \
@@ -43,7 +43,8 @@ opencv:
 opencv_GPU:
 	cd ${OPENCV_LIB_PATH}; \
 	pwd; \
-	cmake -D CUDA_ARCH_BIN = "2.1" -D CUDA_ARCH_PTX = "empty" -D WITH_JPEG=OFF -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local -D BUILD_PYTHON_SUPPORT=ON .. > ${PROJECT_ROOT}/cmake_output.txt ;\
+	cmake -D WITH_CUDA=ON  -D CUDA_ARCH_BIN="2.0" -D CUDA_ARCH_PTX="empty" -D WITH_JPEG=OFF -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local -D BUILD_PYTHON_SUPPORT=ON .. > ${PROJECT_ROOT}/cmake_output.txt ;\
+	make; \
 	sudo make install; \
 
 
