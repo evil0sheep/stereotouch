@@ -39,7 +39,7 @@ opencv:
 	cd ${OPENCV_LIB_PATH}; \
 	pwd; \
 	cmake -D WITH_CUDA=OFF -D WITH_JPEG=OFF -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local -D BUILD_PYTHON_SUPPORT=ON .. > ${PROJECT_ROOT}/cmake_output.txt ;\
-	#make; \
+	make; \
 	sudo make install; \
 
 opencv_GPU:
