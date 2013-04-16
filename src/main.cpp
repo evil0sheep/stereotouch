@@ -1,6 +1,6 @@
 #include <opencv2/opencv.hpp>
 #include <stdio.h>
-#define MAX_FRAME_DT (1000.0 / 30)
+#define MAX_FRAME_DT (1000.0 / 60)
 
  
 using namespace cv;
@@ -18,10 +18,10 @@ int main()
     StereoBM BlockMatcher;
     // BlockMatcher.state->preFilterType = CV_STEREO_BM_XSOBEL; //CV_STEREO_BM_NORMALIZED_RESPONSE;
     // BlockMatcher.state->preFilterSize = 9;
-    // BlockMatcher.state->preFilterCap = 31;
+     BlockMatcher.state->preFilterCap = 45;
      BlockMatcher.state->SADWindowSize = 31;
     // BlockMatcher.state->minDisparity = 0;
-     BlockMatcher.state->numberOfDisparities =  64;
+     BlockMatcher.state->numberOfDisparities =  128;
     // BlockMatcher.state->textureThreshold = 10;
     // BlockMatcher.state->uniquenessRatio = 15;
      //BlockMatcher.state->speckleRange = 60;
@@ -32,8 +32,8 @@ int main()
 
 
 
-    VideoCapture capL(1); 
-    VideoCapture capR(2); 
+    VideoCapture capL(2); 
+    VideoCapture capR(1); 
     if(!capL.isOpened() || !capR.isOpened() ){
         fprintf(stderr, "Failed to open stereo capture device\n");
         return -1;
@@ -75,10 +75,10 @@ int main()
     Mat rotMatR = cvCreateMat(2,3,CV_32FC1);
     // Compute rotation matrix
     CvPoint2D32f centerL = cvPoint2D32f( frameL.cols/2, frameL.rows/2 );
-    rotMatL = getRotationMatrix2D( centerL, 180, 1 );
+    rotMatL = getRotationMatrix2D( centerL, 90, 1 );
 
     CvPoint2D32f centerR = cvPoint2D32f( frameR.cols/2, frameR.rows/2 );
-    rotMatR = getRotationMatrix2D( centerR, 0, 1 );
+    rotMatR = getRotationMatrix2D( centerR, 90, 1 );
 
 
     frameL = Mat();
@@ -101,7 +101,7 @@ int main()
                 capR.grab();
                 timestampR = capR.get(CV_CAP_PROP_POS_MSEC);
             }
-            printf("timestamp difference = %f\n", timestampL - timestampR);
+            //printf("timestamp difference = %f\n", timestampL - timestampR);
         }
        // 
 
@@ -126,8 +126,8 @@ int main()
          cvtColor(frameRemappedR, frameGrayscaleR, CV_RGB2GRAY);
 
 
-         BlockMatcher( frameGrayscaleL, frameGrayscaleR, disparityMap, CV_32F);
-         normalize(disparityMap, disparityMap8bit, 0, 255, CV_MINMAX, CV_8U);
+        BlockMatcher( frameGrayscaleL, frameGrayscaleR, disparityMap, CV_32F);
+        normalize(disparityMap, disparityMap8bit, 0, 255, CV_MINMAX, CV_8U);
 
         //Show the present frame
 

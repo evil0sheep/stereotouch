@@ -21,8 +21,10 @@ all:
 	export PKG_CONFIG_PATH;\
 	${CC} ${EXECUTABLE} ${SRC_FILES} ${LIBS} ${CFLAGS} ;
 
-cuda:
-	${NVCC} ${NVFLAGS} -c -o ransac.o src/ransac.cu
+record: 
+	PKG_CONFIG_PATH=${OPENCV_PKG_CONFIG_PATH}:${PKG_CONFIG_PATH};\
+	export PKG_CONFIG_PATH;\
+	${CC} -o stereo_record src/record.cpp ${LIBS} ${CFLAGS} ;\
 
 
 calibration:
