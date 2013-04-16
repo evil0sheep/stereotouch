@@ -10,6 +10,7 @@ OPENCV_PKG_CONFIG_PATH=${OPENCV_SRC_PATH}/lib/pkgconfig
 CFLAGS= `pkg-config --cflags --libs opencv` -g 
 SRC_FILES=src/main.cpp
 LIBS=
+LDFLAGS=-lopencv_core -lopencv_imgproc -lopencv_calib3d -lopencv_video -lopencv_features2d -lopencv_ml -lopencv_highgui -lopencv_objdetect -lopencv_contrib -lopencv_legacy
 
 
 EXECUTABLE=-o stereotouch
@@ -20,6 +21,9 @@ all:
 	PKG_CONFIG_PATH=${OPENCV_PKG_CONFIG_PATH}:${PKG_CONFIG_PATH};\
 	export PKG_CONFIG_PATH;\
 	${CC} ${EXECUTABLE} ${SRC_FILES} ${LIBS} ${CFLAGS} ;
+
+libs:
+	$(CC) $(EXECUTABLE) $(SRC_FILES) $(LDFLAGS)
 
 record: 
 	PKG_CONFIG_PATH=${OPENCV_PKG_CONFIG_PATH}:${PKG_CONFIG_PATH};\
