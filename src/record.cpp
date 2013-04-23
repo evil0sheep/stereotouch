@@ -1,6 +1,6 @@
 #include <opencv2/opencv.hpp>
 #include <stdio.h>
-#define MAX_FRAME_DT (1000.0 / 60)
+#define MAX_FRAME_DT (1000.0 / 30)
 
  
 using namespace cv;
@@ -24,11 +24,9 @@ int main()
     capL >> frameL;
     capR >> frameR;
 
-    printf("size\n");
+    
     Size combinedSize(frameL.cols + frameR.cols, frameR.rows);
-    printf("writer\n");
     VideoWriter output("output.mpeg", CV_FOURCC('P','I','M','1'), 30.0, combinedSize);
-    printf("mat\n");
     Mat frameCombined(combinedSize, frameL.type());
 
     
@@ -68,15 +66,13 @@ int main()
             break;
         }
 
-        printf("left\n");
+
         frameL.copyTo(frameCombined(Rect(0,0,frameL.cols, frameL.rows)));
-        printf("right\n");
-        frameR.copyTo(frameCombined(Rect(frameL.cols, 0,  frameR.cols, frameR.rows)));
-        printf("done\n");
+        frameR.copyTo(frameCombined(Rect(frameL.cols, 0,  frameR.cols, frameR .rows)));
 
         imshow("LiveFeed",frameCombined);
         
-
+        output << frameCombined;
         
         char c = cvWaitKey(10);
         //If the key pressed by user is Esc(ASCII is 27) then break out of the loop

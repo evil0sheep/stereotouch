@@ -1,6 +1,6 @@
 #include <opencv2/opencv.hpp>
 #include <stdio.h>
-#define MAX_FRAME_DT (1000.0 / 60)
+#define MAX_FRAME_DT (1000.0 / 30)
 
  
 using namespace cv;
